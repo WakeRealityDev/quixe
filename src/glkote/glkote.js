@@ -759,7 +759,8 @@ function glkote_update(arg) {
     var focusfunc = function() {
       var win = windowdic[newinputwin];
       if (win.inputel) {
-        win.inputel.focus();
+        console.warn("SPOT_BAAF skip focus");
+        //win.inputel.focus();
       }
     };
     defer_func(focusfunc);
@@ -1347,7 +1348,7 @@ function accept_one_content(arg) {
 */
 function accept_inputcancel(arg) {
   var hasinput = {};
-  jQuery.map(arg, function(argi) { 
+  jQuery.map(arg, function(argi) {
     if (argi.type)
       hasinput[argi.id] = argi;
   });
@@ -1435,7 +1436,7 @@ function accept_inputset(arg) {
           inputel.val(argi.initial);
         win.terminators = {};
         if (argi.terminators) {
-          for (var ix=0; ix<argi.terminators.length; ix++) 
+          for (var ix=0; ix<argi.terminators.length; ix++)
             win.terminators[argi.terminators[ix]] = true;
         }
       }
@@ -1558,7 +1559,7 @@ function buffer_last_line(win) {
   return $(divel);
 }
 
-/* Return the vertical offset (relative to the parent) of the top of the 
+/* Return the vertical offset (relative to the parent) of the top of the
    last child of the parent. We use the raw DOM "offsetTop" property;
    jQuery doesn't have an accessor for it.
    (Possibly broken in MSIE7? It worked in the old version, though.)
@@ -1591,7 +1592,7 @@ function readjust_paging_focus(canfocus) {
         }
       });
   }
-    
+
   if (windows_paging_count) {
     /* pageable_win will be set. This is our new paging focus. */
     last_known_paging = pageable_win;
@@ -1611,11 +1612,12 @@ function readjust_paging_focus(canfocus) {
           }
         });
     }
-    
+
     if (newinputwin) {
       var win = windowdic[newinputwin];
       if (win.inputel) {
-        win.inputel.focus();
+        console.warn("SPOT_BAAA skip focus");
+        // win.inputel.focus();
       }
     }
   }
@@ -1635,8 +1637,8 @@ function glkote_get_interface() {
 
    In normal usage this is always undefined (meaning, DOM elements are
    searched for within the entire document). This is a fast case;
-   jQuery optimizes for it. However, some apps (not Quixe!) want to 
-   detach the Glk DOM and maintain it off-screen. That's possible if you 
+   jQuery optimizes for it. However, some apps (not Quixe!) want to
+   detach the Glk DOM and maintain it off-screen. That's possible if you
    set the DOM context to the detached element. I think (although I have
    not tested) that this configuration is less well-optimized.
 
@@ -1673,7 +1675,7 @@ function glkote_save_allstate() {
         obj.defcolor[winid] = win.defcolor;
       }
     });
-  
+
   return obj;
 }
 
@@ -1816,9 +1818,9 @@ function last_child_of(obj) {
 }
 
 /* Add text to a DOM element. If GlkOte is configured to detect URLs,
-   this does that, converting them into 
+   this does that, converting them into
    <a href='...' class='External' target='_blank'> tags.
-   
+
    This requires calls to document.createTextNode, because jQuery doesn't
    have a notion of appending literal text. I swear...
 */
@@ -1870,7 +1872,7 @@ function insert_text_detecting(el, val) {
   el.append(document.createTextNode(val));
 }
 
-/* Get the CanvasRenderingContext2D from a canvas element. 
+/* Get the CanvasRenderingContext2D from a canvas element.
 */
 function canvas_get_2dcontext(canvasel) {
   if (!canvasel || !canvasel.length)
@@ -1921,7 +1923,7 @@ function perform_graphics_ops(loadedimg, loadedev) {
     }
 
     var optype = op.special;
-    
+
     switch (optype) {
       case 'setcolor':
         /* Set the default color (no visible changes). */
@@ -2133,7 +2135,7 @@ function send_response(type, win, val, val2) {
   if (!(type == 'init' || type == 'refresh'
       || type == 'specialresponse' || type == 'debuginput')) {
     jQuery.each(windowdic, function(tmpid, win) {
-      var savepartial = (type != 'line' && type != 'char') 
+      var savepartial = (type != 'line' && type != 'char')
                         || (win.id != winid);
       if (savepartial && win.input && win.input.type == 'line'
         && win.inputel && win.inputel.val()) {
@@ -2172,11 +2174,11 @@ function get_query_params() {
         for (var ix = 0; ix < args.length; ix++) {
             var pair = args[ix].split('=');
             var name = decodeURIComponent(pair[0]);
-            
+
             var value = (pair.length==2)
                 ? decodeURIComponent(pair[1])
                 : name;
-            
+
             map[name] = value;
         }
     }
@@ -2254,7 +2256,7 @@ function recording_send(arg) {
             }
           }
         }
-      }      
+      }
     }
 
     recording_state.output = buffer;
@@ -2317,7 +2319,7 @@ function evhan_doc_resize(ev) {
     resize_timer = null;
   }
 
-  resize_timer = delay_func(0.20, doc_resize_real);
+  resize_timer = delay_func(3.20, doc_resize_real);
 }
 
 /* This executes when no new resize events have come along in the past
@@ -2493,7 +2495,8 @@ function evhan_doc_keypress(ev) {
   if (!win.inputel)
     return;
 
-  win.inputel.focus();
+  console.warn("SPOT_BAAB skip focus");
+  // win.inputel.focus();
 
   if (win.input.type == 'line') {
 
@@ -2561,7 +2564,8 @@ function evhan_window_mousedown(ev) {
       ev.preventDefault();
       //glkote_log("### focus to " + win.id);
       //### This doesn't always work, blah
-      win.inputel.focus();
+      console.warn("SPOT_BAAC skip focus");
+      // win.inputel.focus();
     }
   }
 
