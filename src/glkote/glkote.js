@@ -1367,10 +1367,15 @@ function accept_inputcancel(arg) {
   });
 }
 
+
+var input_add_audit_count = 0;
+
 /* Handle all necessary creation of input fields. Also, if a field needs
    to change position, move it.
 */
 function accept_inputset(arg) {
+  input_add_audit_count++;
+
   var hasinput = {};
   var hashyperlink = {};
   var hasmouse = {};
@@ -1392,6 +1397,8 @@ function accept_inputset(arg) {
       return;
     win.input = argi;
 
+    console.log("SPOT_AAAB accept_inputset window loop, " + argi.type);
+
     /* Maximum number of characters to accept. */
     var maxlen = 1;
     if (argi.type == 'line')
@@ -1409,7 +1416,8 @@ function accept_inputset(arg) {
       else {
         glkote_error('Window ' + win.id + ' has requested unrecognized input type ' + argi.type + '.');
       }
-      inputel = $('<input>',
+// MODIFIED to force element to be visible on City of Secrets v3 opening
+      inputel = $('<input css="#AAAAAA">',
         { id: 'win'+win.id+'_input',
           'class': classes, type: 'text', maxlength: maxlen });
       if (true) /* should be mobile-webkit-only? */
@@ -1417,6 +1425,9 @@ function accept_inputset(arg) {
       inputel.attr({
           'aria-live':'off'
         });
+
+      inputel.val("SPOT_AAAC assign (" + input_add_audit_count + "): ");
+
       if (argi.type == 'line') {
         inputel.on('keypress', evhan_input_keypress);
         inputel.on('keydown', evhan_input_keydown);
@@ -1429,6 +1440,8 @@ function accept_inputset(arg) {
         }
       }
       else if (argi.type == 'char') {
+        console.log("SPOT_AAAC accept_inputset window loop CHAR SPOT");
+        inputel.val("SPOT_AAAC char (" + input_add_audit_count + "): ");
         inputel.on('keypress', evhan_input_char_keypress);
         inputel.on('keydown', evhan_input_char_keydown);
       }
